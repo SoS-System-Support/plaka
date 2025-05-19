@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preisblatt Erstellung</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e9f0f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for longer forms */
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 35px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+            font-size: 1.05em;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 12px;
+            border: 1px solid #cce0ff;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+        .radio-group label, .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: auto;
+            height: auto;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .hidden-fields {
+            display: none;
+            background-color: #f8fbff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px dashed #d0e7ff;
+        }
+        .info-text {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Preisblatt Erstellung</h1>
+        <form action="/" method="POST">
+            <div class="form-group">
+                <label for="department">Abteilung:</label>
+                <select id="department" name="department" required onchange="toggleDepartmentFields()">
+                    <option value="">Bitte Abteilung auswählen</option>
+                    <option value="Obst&Gemüse">Obst & Gemüse</option>
+                    <option value="Trocken Sortiment">Trocken Sortiment</option>
+                    <option value="Getränke">Getränke</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Typ:</label>
+                <div class="radio-group">
+                    <input type="radio" id="aktion" name="product_type" value="Aktion" required>
+                    <label for="aktion">Aktion</label>
+                    <input type="radio" id="normalpreis" name="product_type" value="Normalpreis" required checked>
+                    <label for="normalpreis">Normalpreis</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="manufacturer">Hersteller:</label>
+                <input type="text" id="manufacturer" name="manufacturer">
+            </div>
+
+            <div class="form-group">
+                <label for="product_name">Produkt:</label>
+                <input type="text" id="product_name" name="product_name" required>
+            </div>
+
+            <div class="form-group" id="subProductNameGroup" style="display:none;">
+                <label for="sub_product_name">Sub-Produkt Name (z.B. Zero, Mix oder Rot):</label>
+                <input type="text" id="sub_product_name" name="sub_product_name">
+            </div>
+
+            <div class="form-group">
+                <label>Sorten:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="has_varieties" name="has_varieties" value="true">
+                    <label for="has_varieties">Verschiedene Sorten</label>
+                </div>
+            </div>
+
+             <div class="form-group" id="additionalInfoGroup" style="display:none;">
+                <label for="additional_info">Zusatzinformation (z.B. Aus Spanien):</label>
+                <input type="text" id="additional_info" name="additional_info">
+            </div>
+
+
+            <div class="form-group">
+                <label for="quantity_per_pack">Menge pro Gebinde (z.B. 200, 395/400):</label>
+                <input type="text" id="quantity_per_pack" name="quantity_per_pack" required>
+                <select id="unit" name="unit">
+                    <option value="g">g</option>
+                    <option value="ml">ml</option>
+                    <option value="stück">Stück</option>
+                    <option value="L">L</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Preis (€):</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            </div>
+
+            <div class="hidden-fields" id="beveragesFields">
+                <label for="deposit">Pfand (€):</label>
+                <input type="number" id="deposit" name="deposit" step="0.01" value="0.00">
+
+                <label>Verpackungstyp:</label>
+                <div class="radio-group">
+                    <input type="radio" id="einweg" name="packaging_type" value="EINWEG" checked>
+                    <label for="einweg">Einweg</label>
+                    <input type="radio" id="mehrweg" name="packaging_type" value="MEHRWEG">
+                    <label for="mehrweg">Mehrweg</label>
+                </div>
+            </div>
+
+            <div class="hidden-fields" id="produceFields">
+                <label>Bio-Produkt:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="is_bio" name="is_bio" value="true">
+                    <label for="is_bio">Ja, ist Bio</label>
+                </div>
+            </div>
+
+            <button type="submit">Preisblatt erstellen (Download .docx)</button>
+        </form>
+
+        <p class="info-text">
+            Nach dem Download können Sie das Dokument öffnen und direkt drucken. Die Gestaltung passt sich dem Produkt und Aktionstyp an.
+        </p>
+    </div>
+
+    <script>
+        function toggleDepartmentFields() {
+            const department = document.getElementById('department').value;
+            const beveragesFields = document.getElementById('beveragesFields');
+            const produceFields = document.getElementById('produceFields');
+            const subProductNameGroup = document.getElementById('subProductNameGroup');
+            const additionalInfoGroup = document.getElementById('additionalInfoGroup');
+            const manufacturerInput = document.getElementById('manufacturer');
+
+            // Hide all conditional fields first
+            beveragesFields.style.display = 'none';
+            produceFields.style.display = 'none';
+            subProductNameGroup.style.display = 'none';
+            additionalInfoGroup.style.display = 'none';
+
+            // Clear their values to prevent sending unwanted data
+            document.getElementById('deposit').value = '0.00';
+            document.getElementById('einweg').checked = true; // Reset packaging type
+            document.getElementById('is_bio').checked = false; // Reset bio checkbox
+            document.getElementById('sub_product_name').value = '';
+            document.getElementById('additional_info').value = '';
+            manufacturerInput.value = ''; // Clear manufacturer on department change as it varies
+
+
+            if (department === 'Getränke') {
+                beveragesFields.style.display = 'block';
+                subProductNameGroup.style.display = 'block'; // Like "Zero" for Coca-Cola [cite: 1]
+            } else if (department === 'Obst&Gemüse') {
+                produceFields.style.display = 'block';
+                subProductNameGroup.style.display = 'block'; // Like "Mix oder Rot" [cite: 3]
+                additionalInfoGroup.style.display = 'block'; // Like "Aus Spanien" [cite: 3]
+            } else {
+                // For 'Trocken Sortiment'
+                // No specific hidden fields for now beyond the defaults
+            }
+        }
+
+        // Initial call to set correct visibility on page load (if form is pre-filled or for first visit)
+        toggleDepartmentFields();
+    </script>
+</body>
+</html>
