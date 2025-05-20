@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preisblatt Erstellung</title>
+    <title>Kemper Markt - Preis Plakat</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -155,7 +155,7 @@
             </div>
 
             <div class="form-group" id="subProductNameGroup" style="display:none;">
-                <label for="sub_product_name">Sub-Produkt Name (z.B. Zero, Mix oder Rot):</label>
+                <label for="sub_product_name">Sub-Produkt Name (z.B. Zero Zucker, Alkoholfrei, Produkt Mix):</label>
                 <input type="text" id="sub_product_name" name="sub_product_name">
             </div>
 
@@ -174,13 +174,16 @@
 
 
             <div class="form-group">
-                <label for="quantity_per_pack">Menge pro Gebinde (z.B. 200, 395/400):</label>
+                <label for="quantity_per_pack">Menge pro Gebinde (z.B. 100 (g/ml/etc)):</label>
                 <input type="text" id="quantity_per_pack" name="quantity_per_pack" required>
                 <select id="unit" name="unit">
                     <option value="g">g</option>
+                    <option value="Kg">Kg</option>
                     <option value="ml">ml</option>
-                    <option value="stück">Stück</option>
                     <option value="L">L</option>
+                    <option value="Stück">Stück</option>
+                    <option value="Tüte">Stück</option>
+                    <option value="Träger">Stück</option>
                 </select>
             </div>
 
@@ -206,15 +209,15 @@
                 <label>Bio-Produkt:</label>
                 <div class="checkbox-group">
                     <input type="checkbox" id="is_bio" name="is_bio" value="true">
-                    <label for="is_bio">Ja, ist Bio</label>
+                    <label for="is_bio">Ja</label>
                 </div>
             </div>
 
-            <button type="submit">Preisblatt erstellen (Download .docx)</button>
+            <button type="submit">Plakat erstellen (Download .docx)</button>
         </form>
 
         <p class="info-text">
-            Nach dem Download können Sie das Dokument öffnen und direkt drucken. Die Gestaltung passt sich dem Produkt und Aktionstyp an.
+            Nach dem Download kann das Dokument heruntergeladen und abgespeichert werden. Alle Dokumente werden in .docx (Microsoft Word) ausgegeben.
         </p>
     </div>
 
